@@ -131,28 +131,80 @@ export default function NickelJokePage() {
   if (!mounted) return null;
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Background image. Place your Nickelback meme image at /public/nickelback-meme.jpg */}
+    <div className="relative min-h-screen w-full overflow-hidden bg-white">
+      {/* Design accents for this page only */}
+      {/* Fine red grid across the canvas */}
       <div
-        className="pointer-events-none absolute inset-0 bg-fixed bg-cover bg-center opacity-90"
-        style={{ backgroundImage: "url('/nickelback-meme.jpg')" }}
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
         aria-hidden
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(244,63,94,0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(244,63,94,0.25) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
       />
-      {/* Light veil for readability */}
-      <div className="absolute inset-0 bg-white/70" aria-hidden />
+      {/* Playful swirls */}
+      <svg
+        className="pointer-events-none absolute -top-8 right-6 w-48 h-48 text-rose-400 opacity-70"
+        viewBox="0 0 200 200"
+        fill="none"
+        aria-hidden
+      >
+        <path
+          d="M10 100c40-40 80 40 120 0 24-24 10-56-18-62"
+          stroke="currentColor"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M40 130c18-18 38 12 60 0"
+          stroke="currentColor"
+          strokeOpacity="0.6"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+      </svg>
+      <svg
+        className="pointer-events-none absolute bottom-10 left-4 w-40 h-40 text-red-400 opacity-70"
+        viewBox="0 0 200 200"
+        fill="none"
+        aria-hidden
+      >
+        <path
+          d="M20 160c30-26 60 8 90-8 16-8 20-28 6-42"
+          stroke="currentColor"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="150" cy="60" r="6" fill="currentColor" opacity="0.6" />
+        <circle cx="168" cy="78" r="4" fill="currentColor" opacity="0.5" />
+      </svg>
 
       <div className="relative z-10">
         {/* Hero */}
-        <section className="container mx-auto max-w-6xl px-6 pt-12 pb-16 grid md:grid-cols-2 gap-8 items-center">
+        <section className="container mx-auto max-w-6xl px-6 pt-12 pb-16 grid md:grid-cols-2 gap-8 items-start">
           {/* Left: billboard card */}
-          <div className="relative rounded-3xl border border-orange-200/60 bg-white/90 backdrop-blur-sm shadow-2xl overflow-hidden">
+          <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden">
+            {/* Small corner accents */}
+            <div className="absolute -top-2 -left-2 h-5 w-5 rounded-md bg-rose-400/90" aria-hidden />
+            <div className="absolute -bottom-2 -right-2 h-5 w-5 rounded-md bg-pink-400/90" aria-hidden />
+
             <div className="p-8 md:p-10">
               <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
                 Premium AI comedy for a nickel
               </h2>
               <p className="mt-4 text-lg text-slate-700">
-                Pay a nickel, get a laugh. Each joke streams live to your screen.
+                Pay once, get a laugh. Each joke streams live to your screen.
               </p>
+
+              {/* Price badge without pill styling */}
+              <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-rose-300 bg-rose-50 px-3 py-1">
+                <span className="text-xl">💰</span>
+                <span className="text-slate-800 font-semibold">5¢ USDC per joke</span>
+              </div>
+
               {/* Topic input and actions */}
               <div className="mt-8 space-y-3">
                 <Input
@@ -161,13 +213,14 @@ export default function NickelJokePage() {
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   disabled={isLoading || !isConnected}
-                  className="h-12 rounded-full border border-orange-200/60 bg-white text-center text-lg placeholder-slate-400"
+                  className="h-12 rounded-xl border border-rose-200/70 bg-white text-center text-lg placeholder-slate-400"
                 />
+
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button
                     onClick={() => generateJoke()}
                     disabled={isLoading || !isConnected}
-                    className="flex-1 h-12 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold hover:from-orange-400 hover:to-rose-400"
+                    className="flex-1 h-12 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold hover:from-rose-400 hover:to-pink-400"
                   >
                     {isLoading ? (
                       <>
@@ -181,15 +234,17 @@ export default function NickelJokePage() {
                       </>
                     )}
                   </Button>
+
                   <Button
                     onClick={generateRandomJoke}
                     disabled={isLoading || !isConnected}
-                    className="flex-1 h-12 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 font-bold hover:from-amber-300 hover:to-yellow-400"
+                    className="flex-1 h-12 rounded-xl bg-gradient-to-r from-amber-400 to-rose-400 text-slate-900 font-bold hover:from-amber-300 hover:to-rose-300"
                   >
                     <span className="mr-2">🎲</span>
                     Surprise me
                   </Button>
                 </div>
+
                 {!isConnected ? (
                   <p className="text-sm text-slate-600">
                     Use the Connect button in the header to start
@@ -199,9 +254,9 @@ export default function NickelJokePage() {
             </div>
           </div>
 
-          {/* Right: meme callout */}
+          {/* Right: playful explainer card */}
           <div className="relative h-full">
-            <div className="rounded-3xl border border-orange-200/60 bg-white/80 p-6 md:p-8 backdrop-blur-sm shadow-xl">
+            <div className="rounded-3xl border border-rose-200/70 bg-white p-6 md:p-8 shadow-xl">
               <div className="flex items-start gap-4">
                 <span className="text-5xl">📸</span>
                 <div>
@@ -218,12 +273,19 @@ export default function NickelJokePage() {
                     <Button
                       onClick={() => setShowInfo(true)}
                       variant="outline"
-                      className="border-orange-200/60 bg-white hover:bg-orange-50 text-slate-800"
+                      className="rounded-xl border-rose-200/70 bg-white hover:bg-rose-50 text-slate-800"
                     >
                       How it works and help
                     </Button>
                   </div>
                 </div>
+              </div>
+
+              {/* Simple color bars for personality */}
+              <div className="mt-6 flex gap-2" aria-hidden>
+                <div className="h-2 w-12 rounded-md bg-rose-300" />
+                <div className="h-2 w-8 rounded-md bg-pink-300" />
+                <div className="h-2 w-16 rounded-md bg-red-300" />
               </div>
             </div>
           </div>
@@ -232,26 +294,12 @@ export default function NickelJokePage() {
         {/* Error notice */}
         {error && (
           <div className="container mx-auto max-w-3xl px-6">
-            <div className="mt-4 rounded-2xl border border-rose-300/60 bg-rose-50 p-5 text-rose-700">
+            <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-50 p-5 text-rose-700">
               <p className="font-semibold">{error}</p>
               <div className="mt-2 text-sm space-y-1">
-                {!isOnTarget && (
-                  <Button
-                    onClick={() => switchChain({ chainId: TARGET_CHAIN.id })}
-                    className="bg-amber-400 text-slate-900 font-bold hover:bg-amber-300"
-                  >
-                    Switch to {TARGET_CHAIN.name}
-                  </Button>
-                )}
-                {error.includes("Payment required") && (
-                  <p>Tip: check your USDC balance and try again.</p>
-                )}
-                {error.toLowerCase().includes("switch") && (
-                  <p>Tip: use the header to pick a supported network.</p>
-                )}
-                {error.toLowerCase().includes("connect") && (
-                  <p>Tip: use the Connect button in the header.</p>
-                )}
+                {error.includes("Payment required") && <p>Tip: check your USDC balance and try again.</p>}
+                {error.toLowerCase().includes("switch") && <p>Tip: use the header to pick a supported network.</p>}
+                {error.toLowerCase().includes("connect") && <p>Tip: use the Connect button in the header.</p>}
                 {!error.toLowerCase().includes("payment") &&
                   !error.toLowerCase().includes("switch") &&
                   !error.toLowerCase().includes("connect") && (
@@ -265,7 +313,7 @@ export default function NickelJokePage() {
         {/* Joke display */}
         {(joke || isLoading) && (
           <section className="container mx-auto max-w-4xl px-6 pb-16">
-            <div className="mt-8 rounded-3xl border border-orange-200/60 bg-white p-6 md:p-8 backdrop-blur-sm shadow-2xl">
+            <div className="mt-8 rounded-3xl border border-rose-200/70 bg-white p-6 md:p-8 shadow-2xl">
               <div className="text-center mb-4">
                 <span className="text-4xl">🎪</span>
                 <h3 className="text-xl font-bold text-slate-900 mt-2">Your joke</h3>
@@ -291,7 +339,7 @@ export default function NickelJokePage() {
                 <div className="text-center mt-6">
                   <Button
                     onClick={clearJoke}
-                    className="rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:from-purple-400 hover:to-pink-400"
+                    className="rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:from-purple-400 hover:to-pink-400"
                   >
                     <span className="mr-2">🎭</span>
                     Another joke please
@@ -305,13 +353,16 @@ export default function NickelJokePage() {
         {/* Info modal */}
         {showInfo && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
-            <div className="absolute inset-0 bg-black/30" onClick={() => setShowInfo(false)} />
-            <div className="relative z-10 w-full max-w-2xl rounded-3xl border border-orange-200/60 bg-white p-6 md:p-8 text-slate-800 shadow-xl">
+            <div
+              className="absolute inset-0 bg-pink-200/20"
+              onClick={() => setShowInfo(false)}
+            />
+            <div className="relative z-10 w-full max-w-2xl rounded-3xl border border-rose-200/70 bg-white p-6 md:p-8 text-slate-800 shadow-xl">
               <div className="flex items-start justify-between">
                 <h4 className="text-xl font-bold">How it works and help</h4>
                 <button
                   onClick={() => setShowInfo(false)}
-                  className="rounded-full border border-orange-200/60 px-3 py-1 text-sm hover:bg-orange-50"
+                  className="rounded-xl border border-rose-200/70 px-3 py-1 text-sm hover:bg-rose-50"
                 >
                   Close
                 </button>
@@ -343,7 +394,7 @@ export default function NickelJokePage() {
                     </li>
                   </ul>
                 </div>
-                <div className="rounded-xl border border-orange-200/60 bg-orange-50 p-3 text-slate-700">
+                <div className="rounded-xl border border-rose-200/70 bg-rose-50 p-3 text-slate-700">
                   <p className="text-xs">
                     Tech note: payments use x402-fetch with wallet native authorization. No sign ups, just a tiny
                     approval per joke.

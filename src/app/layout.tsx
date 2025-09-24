@@ -17,15 +17,38 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
         <Providers>
-          {/* Light playful gradient */}
+          {/* White canvas */}
+          <div className="fixed inset-0 -z-20 bg-white" aria-hidden />
+
+          {/* Subtle confetti dots */}
           <div
-            className="fixed inset-0 -z-10 bg-gradient-to-b from-amber-50 via-orange-50 to-rose-50"
+            className="fixed inset-0 -z-10 opacity-[0.08]"
             aria-hidden
+            style={{
+              backgroundImage:
+                "radial-gradient(#ef4444 1px, transparent 1px), radial-gradient(#f472b6 1px, transparent 1px)",
+              backgroundSize: "18px 18px, 22px 22px",
+              backgroundPosition: "0 0, 10px 8px",
+            }}
           />
+
+          {/* Soft playful bursts */}
+          <div
+            className="pointer-events-none fixed -top-24 -left-24 h-[28rem] w-[28rem] -z-10 rounded-full blur-3xl"
+            aria-hidden
+            style={{ background: "radial-gradient(circle, rgba(255,99,132,0.30), rgba(255,99,132,0))" }}
+          />
+          <div
+            className="pointer-events-none fixed bottom-[-10rem] right-[-6rem] h-[26rem] w-[26rem] -z-10 rounded-full blur-3xl"
+            aria-hidden
+            style={{ background: "radial-gradient(circle, rgba(244,114,182,0.25), rgba(244,114,182,0))" }}
+          />
+
+          {/* Layout chrome */}
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <main className="flex-1">{children}</main>
-            <footer className="border-t border-orange-200/60 py-6 text-center text-slate-600 bg-white/80 backdrop-blur-sm">
+            <footer className="border-t border-rose-200/60 bg-white/80 backdrop-blur-sm py-6 text-center text-slate-600">
               <p>© NickelJoke. Pay a nickel, get a giggle.</p>
             </footer>
           </div>
