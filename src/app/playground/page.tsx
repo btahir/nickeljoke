@@ -12,7 +12,8 @@ export default function Playground() {
   const handleJobSubmit = async (
     job: string,
     enablePayment: boolean,
-    actAsScraper: boolean
+    actAsScraper: boolean,
+    topic?: string
   ) => {
     // Close any existing connection
     if (currentEventSource) {
@@ -32,6 +33,10 @@ export default function Playground() {
 
       if (actAsScraper && job === "scrape") {
         url.searchParams.set("act-as-scraper", "true");
+      }
+
+      if (topic && job === "joke") {
+        url.searchParams.set("topic", topic);
       }
 
       // Create EventSource for the specific job

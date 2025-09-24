@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,7 +17,8 @@ interface JobFormProps {
   onSubmit: (
     job: string,
     enablePayment: boolean,
-    actAsScraper: boolean
+    actAsScraper: boolean,
+    topic?: string
   ) => void;
   isSubmitting: boolean;
 }
@@ -34,17 +36,19 @@ const JOB_DESCRIPTIONS = {
       paywall.
     </>
   ),
+  joke: "Generates an AI-powered joke by calling the x402 paywalled `/api/joke` endpoint. Costs $0.05 USDC per joke generation.",
 };
 
 export function JobForm({ onSubmit, isSubmitting }: JobFormProps) {
   const [selectedJob, setSelectedJob] = useState<string>("");
   const [enablePayment, setEnablePayment] = useState(false);
   const [actAsScraper, setActAsScraper] = useState(false);
+  const [jokeTopic, setJokeTopic] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedJob) {
-      onSubmit(selectedJob, enablePayment, actAsScraper);
+      onSubmit(selectedJob, enablePayment, actAsScraper, jokeTopic);
     }
   };
 
@@ -67,6 +71,7 @@ export function JobForm({ onSubmit, isSubmitting }: JobFormProps) {
             <SelectContent>
               <SelectItem value="math">Math Calculator</SelectItem>
               <SelectItem value="scrape">Web Scraper</SelectItem>
+              <SelectItem value="joke">5¢ Joke Generator</SelectItem>
             </SelectContent>
           </Select>
 
@@ -119,6 +124,25 @@ export function JobForm({ onSubmit, isSubmitting }: JobFormProps) {
                 Set user-agent to 'Bot' for scraping behavior
               </p>
             </>
+          )}
+
+          {selectedJob === "joke" && (
+            <div className="space-y-2">
+              <label htmlFor="joke-topic" className="text-sm font-medium">
+                Joke Topic
+              </label>
+              <Input
+                id="joke-topic"
+                type="text"
+                placeholder="e.g., programming, cats, coffee..."
+                value={jokeTopic}
+                onChange={(e) => setJokeTopic(e.target.value)}
+                disabled={isSubmitting}
+              />
+              <p className="text-xs text-muted-foreground">
+                What should the joke be about?
+              </p>
+            </div>
           )}
         </div>
 

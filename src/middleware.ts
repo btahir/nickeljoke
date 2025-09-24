@@ -26,6 +26,13 @@ export const x402Middleware = paymentMiddleware(
         description: "Access to protected content",
       },
     },
+    "/api/joke": {
+      price: "$0.005",
+      network,
+      config: {
+        description: "Premium AI joke generation",
+      },
+    },
   },
   facilitator
 );

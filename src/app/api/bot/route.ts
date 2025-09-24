@@ -61,6 +61,8 @@ export async function GET(request: NextRequest) {
             result = await scrapeJob(fetch, isBot || actAsScraper);
           } else if (job === "math") {
             result = await mathJob(fetch);
+          } else if (job === "joke") {
+            result = await jokeJob(fetch, request.nextUrl.searchParams.get("topic") || "anything");
           } else {
             log("Invalid job specified");
             result = { error: "Invalid job" };
@@ -174,4 +176,31 @@ async function mathJob(fetch: Fetch) {
   const result = await response.json();
 
   return result;
+}
+
+async function jokeJob(fetch: Fetch, topic: string) {
+  const response = await fetch(`${env.URL}/api/joke`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ topic }),
+  });
+
+  if (!response.ok) {
+    throw new Error("An error occurred: " + response.statusText);
+  }
+
+  // Handle streaming response
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error("No response body");
+
+  let joke = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    joke += new TextDecoder().decode(value);
+  }
+
+  return { joke, topic };
 }
