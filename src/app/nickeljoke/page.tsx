@@ -12,6 +12,7 @@ import rough from "roughjs";
 import { ScratchToReveal } from "@/components/ui/scratch-to-reveal";
 import confetti from "canvas-confetti";
 import { Caveat } from "next/font/google";
+import { toPng } from "html-to-image";
 
 const caveat = Caveat({ subsets: ["latin"] });
 
@@ -299,6 +300,8 @@ export default function NickelJokePage() {
   const [showInfo, setShowInfo] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [confettiTriggered, setConfettiTriggered] = useState(false);
+  
+  const scratchCardRef = useRef<HTMLDivElement>(null);
 
   const { address, isConnected, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -397,6 +400,47 @@ export default function NickelJokePage() {
     setJoke("");
     setTopic("");
     setConfettiTriggered(false);
+  };
+
+  const downloadScratchCard = async () => {
+    if (scratchCardRef.current === null) {
+      return;
+    }
+
+    try {
+      // Find the ScratchToReveal element and temporarily remove border radius
+      const scratchElement = scratchCardRef.current.querySelector('[class*="rounded"]');
+      const originalClassName = scratchElement?.className || '';
+      
+      if (scratchElement) {
+        // Remove border radius classes
+        scratchElement.className = originalClassName.replace(/rounded-[^\s]*|rounded/g, '').trim();
+      }
+
+      const dataUrl = await toPng(scratchCardRef.current, { 
+        cacheBust: true,
+        backgroundColor: '#ffffff'
+      });
+      
+      // Restore original border radius
+      if (scratchElement) {
+        scratchElement.className = originalClassName;
+      }
+
+      const link = document.createElement('a');
+      link.download = 'nickel-joke-card.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to download image:', err);
+      
+      // Make sure to restore original className even if download fails
+      const scratchElement = scratchCardRef.current?.querySelector('[class*="rounded"]');
+      const originalClassName = scratchElement?.getAttribute('data-original-class');
+      if (scratchElement && originalClassName) {
+        scratchElement.className = originalClassName;
+      }
+    }
   };
 
   if (!mounted) return null;
@@ -572,7 +616,8 @@ export default function NickelJokePage() {
                 </div>
               ) : (
                 <div className="flex justify-center">
-                  <ScratchToReveal
+                  <div ref={scratchCardRef}>
+                    <ScratchToReveal
                     width={350}
                     height={200}
                     minScratchPercentage={60}
@@ -590,19 +635,30 @@ export default function NickelJokePage() {
                         </p>
                       </div>
                     </div>
-                  </ScratchToReveal>
+                    </ScratchToReveal>
+                  </div>
                 </div>
               )}
               
               {joke && (
-                <div className="text-center mt-6">
-                  <Button
-                    onClick={clearJoke}
-                    className="rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:from-purple-400 hover:to-pink-400"
-                  >
-                    <span className="mr-2">🎭</span>
-                    Another joke please
-                  </Button>
+                <div className="text-center mt-6 space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button
+                      onClick={downloadScratchCard}
+                      variant="outline"
+                      className="rounded-xl border-rose-300 text-rose-700 hover:bg-rose-50"
+                    >
+                      <span className="mr-2">📥</span>
+                      Download Card
+                    </Button>
+                    <Button
+                      onClick={clearJoke}
+                      className="rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:from-purple-400 hover:to-pink-400"
+                    >
+                      <span className="mr-2">🎭</span>
+                      Another joke please
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
