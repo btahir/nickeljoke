@@ -8,6 +8,7 @@ import { Highlighter } from "@/components/ui/highlighter";
 import { Caveat } from "next/font/google";
 import { toPng } from "html-to-image";
 import confetti from "canvas-confetti";
+import { ShareButton } from "@/components/share-button";
 
 const caveat = Caveat({ subsets: ["latin"] });
 
@@ -15,10 +16,12 @@ interface JokeDisplayProps {
   joke: string;
   isLoading: boolean;
   onClearJoke: () => void;
+  topic?: string;
+  isSharedView?: boolean;
 }
 
 export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
-  ({ joke, isLoading, onClearJoke }, ref) => {
+  ({ joke, isLoading, onClearJoke, topic, isSharedView = false }, ref) => {
     const [confettiTriggered, setConfettiTriggered] = useState(false);
 
     // Reset confetti trigger when joke changes
@@ -51,17 +54,17 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
         // Find the ScratchToReveal element and temporarily remove border radius
         scratchElement = element.querySelector('[class*="rounded"]');
         originalClassName = scratchElement?.className || '';
-        
+
         if (scratchElement) {
           // Remove border radius classes temporarily
           scratchElement.className = originalClassName.replace(/rounded-[^\s]*|rounded/g, '').trim();
         }
 
-        const dataUrl = await toPng(element, { 
+        const dataUrl = await toPng(element, {
           cacheBust: true,
           backgroundColor: '#ffffff'
         });
-        
+
         // Restore original border radius
         if (scratchElement && originalClassName) {
           scratchElement.className = originalClassName;
@@ -73,7 +76,7 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
         link.click();
       } catch (err) {
         console.error('Failed to download image:', err);
-        
+
         // Make sure to restore original className even if download fails
         if (scratchElement && originalClassName) {
           scratchElement.className = originalClassName;
@@ -87,12 +90,11 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
       <section ref={ref} className="container mx-auto max-w-4xl px-6 pb-16">
         <div className="mt-8 text-center">
           <div className="mb-6">
-            <span className="text-4xl">🎪</span>
-            <h3 className="text-xl font-bold text-slate-900 mt-2">
-              Your joke - <Highlighter action="underline" color="#FF9800">scratch to reveal</Highlighter>!
+            <h3 className="text-xl font-medium text-slate-900 mt-2">
+              <Highlighter action="underline" color="#FF9800">scratch</Highlighter>  to reveal!
             </h3>
           </div>
-          
+
           {isLoading ? (
             <div className="flex flex-col items-center justify-center p-8 bg-white rounded-2xl border border-rose-200/70 shadow-2xl">
               <Loader className="h-8 w-8 mb-4" />
@@ -109,7 +111,7 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
                   gradientColors={["#ec4899", "#be185d", "#e879a7"]}
                   onComplete={triggerConfetti}
                 >
-                  <div 
+                  <div
                     className="w-full h-full flex items-center justify-center p-6"
                     style={{ backgroundColor: '#fff8dc' }}
                   >
@@ -123,7 +125,7 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
               </div>
             </div>
           )}
-          
+
           {joke && (
             <div className="text-center mt-6 space-y-3">
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -135,13 +137,17 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
                   <span className="mr-2">📥</span>
                   Download Card
                 </Button>
-                <Button
-                  onClick={onClearJoke}
-                  className="rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold hover:from-slate-500 hover:to-slate-600 transition-all duration-200"
-                >
-                  <span className="mr-2">🎭</span>
-                  Another joke please
-                </Button>
+                {!isSharedView ? (
+                  <ShareButton joke={joke} topic={topic} />
+                ) : (
+                  <Button
+                    onClick={() => window.location.href = '/'}
+                    className="rounded-xl bg-gradient-to-r from-amber-400 to-rose-400 text-slate-900 font-bold hover:from-amber-300 hover:to-rose-300 transition-all duration-200"
+                  >
+                    <span className="mr-2">🎭</span>
+                    Generate Your Own Joke
+                  </Button>
+                )}
               </div>
             </div>
           )}

@@ -176,6 +176,7 @@ export default function NickelJokePage() {
           joke={joke}
           isLoading={isLoading}
           onClearJoke={clearJoke}
+          topic={topic}
         />
 
         <InfoModal showInfo={showInfo} onClose={() => setShowInfo(false)} />
