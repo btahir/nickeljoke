@@ -622,7 +622,7 @@ export default function NickelJokePage() {
                     height={200}
                     minScratchPercentage={60}
                     className="flex items-center justify-center overflow-hidden rounded-2xl border-2 shadow-2xl"
-                    gradientColors={["#d1d5db", "#9ca3af", "#6b7280"]}
+                    gradientColors={["#ec4899", "#be185d", "#e879a7"]}
                     onComplete={triggerConfetti}
                   >
                     <div 
@@ -646,14 +646,14 @@ export default function NickelJokePage() {
                     <Button
                       onClick={downloadScratchCard}
                       variant="outline"
-                      className="rounded-xl border-rose-300 text-rose-700 hover:bg-rose-50"
+                      className="rounded-xl border-rose-500 text-rose-700 hover:bg-rose-50 hover:border-rose-600 transition-colors duration-200"
                     >
                       <span className="mr-2">📥</span>
                       Download Card
                     </Button>
                     <Button
                       onClick={clearJoke}
-                      className="rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:from-purple-400 hover:to-pink-400"
+                      className="rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold hover:from-rose-400 hover:to-red-500 transition-all duration-200"
                     >
                       <span className="mr-2">🎭</span>
                       Another joke please
