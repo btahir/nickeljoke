@@ -52,8 +52,19 @@ export async function getOrCreatePurchaserAccount(): Promise<Account> {
 }
 
 export async function getOrCreateSellerAccount(): Promise<Account> {
+  // If custom seller address is provided, create a mock account with that address
+  if (env.SELLER_WALLET_ADDRESS) {
+    console.log('💰 Using custom seller wallet:', env.SELLER_WALLET_ADDRESS);
+    return {
+      address: env.SELLER_WALLET_ADDRESS as `0x${string}`,
+      // Mock account - just need the address for middleware
+    } as Account;
+  }
+  
+  // Otherwise use CDP-managed wallet
   const account = await cdp.evm.getOrCreateAccount({
     name: "Seller",
   });
+  console.log('💰 Using CDP-managed seller wallet:', account.address);
   return toAccount(account);
 }

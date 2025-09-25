@@ -11,6 +11,10 @@ export const env = createEnv({
     SELLER_WALLET_ADDRESS: z.string().optional(),
   },
 
+  client: {
+    NEXT_PUBLIC_NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
+  },
+
   /**
    * What object holds the environment variables at runtime. This is usually
    * `process.env` or `import.meta.env`.
@@ -24,6 +28,7 @@ export const env = createEnv({
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : undefined,
     SELLER_WALLET_ADDRESS: process.env.SELLER_WALLET_ADDRESS,
+    NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK,
   },
 
   /**
