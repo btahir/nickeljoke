@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Loader } from "@/components/ai-elements/loader";
 import { useAccount, useWalletClient, useSwitchChain } from "wagmi";
 import { wrapFetchWithPayment } from "x402-fetch";
@@ -49,7 +48,7 @@ const randomTopics = [
 ];
 
 // Speech bubble component using Rough.js
-const RoughSpeechBubble = ({ width = 160, height = 120, text = "Ha Ha!", className = "" }) => {
+const RoughStar = ({ width = 160, height = 120, text = "Ha Ha!", className = "" }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   useEffect(() => {
@@ -62,8 +61,23 @@ const RoughSpeechBubble = ({ width = 160, height = 120, text = "Ha Ha!", classNa
     
     ctx.clearRect(0, 0, width, height);
     
-    // Draw speech bubble body
-    rc.ellipse(width * 0.5, height * 0.4, width * 0.7, height * 0.6, {
+    // Draw star shape
+    const centerX = width * 0.5;
+    const centerY = height * 0.4;
+    const outerRadius = width * 0.25;
+    const innerRadius = outerRadius * 0.4;
+    const spikes = 6;
+    
+    const starPoints: [number, number][] = [];
+    for (let i = 0; i < spikes * 2; i++) {
+      const radius = i % 2 === 0 ? outerRadius : innerRadius;
+      const angle = (i * Math.PI) / spikes;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      starPoints.push([x, y]);
+    }
+    
+    rc.polygon(starPoints, {
       stroke: '#f43f5e',
       strokeWidth: 2,
       roughness: 1.5,
@@ -71,26 +85,11 @@ const RoughSpeechBubble = ({ width = 160, height = 120, text = "Ha Ha!", classNa
       fillStyle: 'solid'
     });
     
-    // Draw speech bubble tail
-    const tailPoints: [number, number][] = [
-      [width * 0.3, height * 0.65],
-      [width * 0.15, height * 0.85],
-      [width * 0.4, height * 0.7]
-    ];
-    
-    rc.polygon(tailPoints, {
-      stroke: '#f43f5e',
-      strokeWidth: 2,
-      roughness: 1.5,
-      fill: 'rgba(255, 255, 255, 0.9)',
-      fillStyle: 'solid'
-    });
-    
-    // Add text
-    ctx.font = 'bold 14px sans-serif';
+    // Add text in center of star
+    ctx.font = 'bold 16px sans-serif';
     ctx.fillStyle = '#f43f5e';
     ctx.textAlign = 'center';
-    ctx.fillText(text, width * 0.5, height * 0.42);
+    ctx.fillText('LOL', centerX, centerY + 5);
     
   }, [width, height, text]);
   
@@ -480,7 +479,7 @@ export default function NickelJokePage() {
         <RoughBlockchain width={140} height={100} className="text-blue-500" />
       </div>
       <div className="pointer-events-none absolute top-16 right-8 opacity-75" aria-hidden>
-        <RoughSpeechBubble width={180} height={130} text="LOL!" className="text-rose-400" />
+        <RoughStar width={200} height={160} text="LOL!" className="text-rose-400" />
       </div>
       <div className="pointer-events-none absolute bottom-12 left-6 opacity-70" aria-hidden>
         <RoughWallet width={160} height={120} className="text-purple-500" />
@@ -770,7 +769,9 @@ export default function NickelJokePage() {
             <div className="mt-8 text-center">
               <div className="mb-6">
                 <span className="text-4xl">🎪</span>
-                <h3 className="text-xl font-bold text-slate-900 mt-2">Your joke - scratch to reveal!</h3>
+                <h3 className="text-xl font-bold text-slate-900 mt-2">
+                  Your joke - <Highlighter action="underline" color="#FF9800">scratch to reveal</Highlighter>!
+                </h3>
               </div>
               
               {isLoading ? (
