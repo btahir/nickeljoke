@@ -35,6 +35,11 @@ export function ShareButton({ joke, topic }: ShareButtonProps) {
       // Auto-copy to clipboard
       await navigator.clipboard.writeText(data.shareUrl);
       setLinkCopied(true);
+      
+      // Reset back to share button after 2 seconds
+      setTimeout(() => {
+        setLinkCopied(false);
+      }, 2000);
     } catch (error) {
       console.error('Error generating share URL:', error);
     } finally {
