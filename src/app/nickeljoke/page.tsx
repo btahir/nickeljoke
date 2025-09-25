@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,7 @@ import { Loader } from "@/components/ai-elements/loader";
 import { useAccount, useWalletClient, useSwitchChain } from "wagmi";
 import { wrapFetchWithPayment } from "x402-fetch";
 import { baseSepolia, base } from "wagmi/chains"; // Toggle TARGET_CHAIN to base for production
+import rough from "roughjs";
 
 const randomTopics = [
   "programming",
@@ -32,6 +33,258 @@ const randomTopics = [
   "technology",
   "dogs",
 ];
+
+// Speech bubble component using Rough.js
+const RoughSpeechBubble = ({ width = 160, height = 120, text = "Ha Ha!", className = "" }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const rc = rough.canvas(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw speech bubble body
+    rc.ellipse(width * 0.5, height * 0.4, width * 0.7, height * 0.6, {
+      stroke: '#f43f5e',
+      strokeWidth: 2,
+      roughness: 1.5,
+      fill: 'rgba(255, 255, 255, 0.9)',
+      fillStyle: 'solid'
+    });
+    
+    // Draw speech bubble tail
+    const tailPoints: [number, number][] = [
+      [width * 0.3, height * 0.65],
+      [width * 0.15, height * 0.85],
+      [width * 0.4, height * 0.7]
+    ];
+    
+    rc.polygon(tailPoints, {
+      stroke: '#f43f5e',
+      strokeWidth: 2,
+      roughness: 1.5,
+      fill: 'rgba(255, 255, 255, 0.9)',
+      fillStyle: 'solid'
+    });
+    
+    // Add text
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillStyle = '#f43f5e';
+    ctx.textAlign = 'center';
+    ctx.fillText(text, width * 0.5, height * 0.42);
+    
+  }, [width, height, text]);
+  
+  return (
+    <canvas 
+      ref={canvasRef} 
+      width={width} 
+      height={height}
+      className={className}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  );
+};
+
+// Nickel coin component
+const RoughNickelCoin = ({ width = 100, height = 100, className = "" }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const rc = rough.canvas(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw outer coin circle
+    rc.circle(width * 0.5, height * 0.5, width * 0.8, {
+      stroke: '#6b7280',
+      strokeWidth: 3,
+      roughness: 1.2,
+      fill: 'rgba(156, 163, 175, 0.3)',
+      fillStyle: 'solid'
+    });
+    
+    // Draw inner circle
+    rc.circle(width * 0.5, height * 0.5, width * 0.65, {
+      stroke: '#4b5563',
+      strokeWidth: 2,
+      roughness: 1.0,
+      fill: 'none'
+    });
+    
+    // Add "5¢" text
+    ctx.font = 'bold 18px serif';
+    ctx.fillStyle = '#374151';
+    ctx.textAlign = 'center';
+    ctx.fillText('5¢', width * 0.5, height * 0.55);
+    
+    // Add decorative ridges around the edge
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * 30) * Math.PI / 180;
+      const innerR = width * 0.35;
+      const outerR = width * 0.4;
+      const x1 = width * 0.5 + Math.cos(angle) * innerR;
+      const y1 = height * 0.5 + Math.sin(angle) * innerR;
+      const x2 = width * 0.5 + Math.cos(angle) * outerR;
+      const y2 = height * 0.5 + Math.sin(angle) * outerR;
+      
+      rc.line(x1, y1, x2, y2, {
+        stroke: '#6b7280',
+        strokeWidth: 1,
+        roughness: 0.8
+      });
+    }
+    
+  }, [width, height]);
+  
+  return (
+    <canvas 
+      ref={canvasRef} 
+      width={width} 
+      height={height}
+      className={className}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  );
+};
+
+// Blockchain component - chain of connected blocks
+const RoughBlockchain = ({ width = 160, height = 120, className = "" }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const rc = rough.canvas(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    const blockWidth = width * 0.25;
+    const blockHeight = height * 0.4;
+    const spacing = width * 0.05;
+    
+    // Draw single block with "402"
+    const x = width * 0.35;
+    const y = height * 0.3;
+    
+    // Draw block rectangle
+    rc.rectangle(x, y, blockWidth, blockHeight, {
+      stroke: '#3b82f6',
+      strokeWidth: 2,
+      roughness: 1.3,
+      fill: 'rgba(59, 130, 246, 0.1)',
+      fillStyle: 'hachure',
+      hachureAngle: 45,
+      hachureGap: 6
+    });
+    
+    // Add "402" text
+    ctx.font = 'bold 12px monospace';
+    ctx.fillStyle = '#1e40af';
+    ctx.textAlign = 'center';
+    ctx.fillText('402', x + blockWidth / 2, y + blockHeight / 2 + 4);
+    
+    
+  }, [width, height]);
+  
+  return (
+    <canvas 
+      ref={canvasRef} 
+      width={width} 
+      height={height}
+      className={className}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  );
+};
+
+// Crypto wallet component
+const RoughWallet = ({ width = 160, height = 120, className = "" }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const rc = rough.canvas(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw wallet body
+    rc.rectangle(width * 0.2, height * 0.3, width * 0.6, height * 0.5, {
+      stroke: '#7c3aed',
+      strokeWidth: 2,
+      roughness: 1.4,
+      fill: 'rgba(124, 58, 237, 0.1)',
+      fillStyle: 'hachure',
+      hachureAngle: -45,
+      hachureGap: 6
+    });
+    
+    // Draw wallet flap/closure
+    rc.rectangle(width * 0.25, height * 0.25, width * 0.5, height * 0.15, {
+      stroke: '#7c3aed',
+      strokeWidth: 2,
+      roughness: 1.2,
+      fill: 'rgba(124, 58, 237, 0.2)',
+      fillStyle: 'solid'
+    });
+    
+    // Draw connection symbol (wifi-like)
+    const centerX = width * 0.5;
+    const centerY = height * 0.55;
+    
+    // Three curved lines representing connection
+    for (let i = 0; i < 3; i++) {
+      const radius = 15 + (i * 8);
+      const points: [number, number][] = [];
+      for (let angle = -45; angle <= 45; angle += 5) {
+        const radian = (angle * Math.PI) / 180;
+        const x = centerX + Math.cos(radian) * radius;
+        const y = centerY + Math.sin(radian) * radius * 0.6;
+        points.push([x, y]);
+      }
+      
+      rc.curve(points, {
+        stroke: '#10b981',
+        strokeWidth: 2,
+        roughness: 1.0
+      });
+    }
+    
+    // Add "WALLET" text
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillStyle = '#7c3aed';
+    ctx.textAlign = 'center';
+    ctx.fillText('WALLET', width * 0.5, height * 0.75);
+    
+  }, [width, height]);
+  
+  return (
+    <canvas 
+      ref={canvasRef} 
+      width={width} 
+      height={height}
+      className={className}
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  );
+};
 
 export default function NickelJokePage() {
   const [topic, setTopic] = useState("");
@@ -143,44 +396,19 @@ export default function NickelJokePage() {
           backgroundSize: "22px 22px",
         }}
       />
-      {/* Playful swirls */}
-      <svg
-        className="pointer-events-none absolute -top-8 right-6 w-48 h-48 text-rose-400 opacity-70"
-        viewBox="0 0 200 200"
-        fill="none"
-        aria-hidden
-      >
-        <path
-          d="M10 100c40-40 80 40 120 0 24-24 10-56-18-62"
-          stroke="currentColor"
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M40 130c18-18 38 12 60 0"
-          stroke="currentColor"
-          strokeOpacity="0.6"
-          strokeWidth="5"
-          strokeLinecap="round"
-        />
-      </svg>
-      <svg
-        className="pointer-events-none absolute bottom-10 left-4 w-40 h-40 text-red-400 opacity-70"
-        viewBox="0 0 200 200"
-        fill="none"
-        aria-hidden
-      >
-        <path
-          d="M20 160c30-26 60 8 90-8 16-8 20-28 6-42"
-          stroke="currentColor"
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="150" cy="60" r="6" fill="currentColor" opacity="0.6" />
-        <circle cx="168" cy="78" r="4" fill="currentColor" opacity="0.5" />
-      </svg>
+      {/* Comedy and blockchain-themed decorative elements */}
+      <div className="pointer-events-none absolute top-8 left-6 opacity-65" aria-hidden>
+        <RoughBlockchain width={140} height={100} className="text-blue-500" />
+      </div>
+      <div className="pointer-events-none absolute top-16 right-8 opacity-75" aria-hidden>
+        <RoughSpeechBubble width={180} height={130} text="LOL!" className="text-rose-400" />
+      </div>
+      <div className="pointer-events-none absolute bottom-12 left-6 opacity-70" aria-hidden>
+        <RoughWallet width={160} height={120} className="text-purple-500" />
+      </div>
+      <div className="pointer-events-none absolute bottom-16 right-6 opacity-60" aria-hidden>
+        <RoughNickelCoin width={120} height={120} className="text-gray-500" />
+      </div>
 
       <div className="relative z-10">
         {/* Hero */}
