@@ -8,6 +8,7 @@ export const env = createEnv({
     CDP_API_KEY_SECRET: z.string(),
     NETWORK: z.enum(["base-sepolia", "base"]).default("base-sepolia"),
     URL: z.string().url().default("http://localhost:3000"),
+    SELLER_WALLET_ADDRESS: z.string().optional(),
   },
 
   /**
@@ -22,6 +23,7 @@ export const env = createEnv({
     URL: process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : undefined,
+    SELLER_WALLET_ADDRESS: process.env.SELLER_WALLET_ADDRESS,
   },
 
   /**
