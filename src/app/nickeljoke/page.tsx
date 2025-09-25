@@ -13,6 +13,7 @@ import { ScratchToReveal } from "@/components/ui/scratch-to-reveal";
 import confetti from "canvas-confetti";
 import { Caveat } from "next/font/google";
 import { toPng } from "html-to-image";
+import { Highlighter } from "@/components/ui/highlighter";
 
 const caveat = Caveat({ subsets: ["latin"] });
 
@@ -477,22 +478,30 @@ export default function NickelJokePage() {
         <section className="container mx-auto max-w-6xl px-6 pt-12 pb-16 grid md:grid-cols-2 gap-8 items-start">
           {/* Left: billboard card */}
           <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden">
-            {/* Small corner accents */}
-            <div className="absolute -top-2 -left-2 h-5 w-5 rounded-md bg-rose-400/90" aria-hidden />
-            <div className="absolute -bottom-2 -right-2 h-5 w-5 rounded-md bg-pink-400/90" aria-hidden />
+            {/* Corner accents */}
+            <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
+            <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
 
             <div className="p-8 md:p-10">
               <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
                 Premium AI comedy for a nickel
               </h2>
               <p className="mt-4 text-lg text-slate-700">
-                Pay once, get a laugh. Each joke streams live to your screen.
+                <Highlighter action="underline" color="#10b981">
+                  Pay once
+                </Highlighter>
+                , get a laugh. Each joke streams live to your screen.
               </p>
 
               {/* Price badge without pill styling */}
               <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-rose-300 bg-rose-50 px-3 py-1">
                 <span className="text-xl">💰</span>
-                <span className="text-slate-800 font-semibold">5¢ USDC per joke</span>
+                <span className="text-slate-800 font-semibold">
+                  <Highlighter action="highlight" color="#fbbf24">
+                    5¢
+                  </Highlighter>
+                  <span className="ml-4">per joke</span>
+                </span>
               </div>
 
               {/* Topic input and actions */}
@@ -550,14 +559,15 @@ export default function NickelJokePage() {
               <div className="flex items-start gap-4">
                 <span className="text-5xl">📸</span>
                 <div>
-                  <h3 className="text-2xl font-bold text-slate-900">Look at this photograph</h3>
+                  <h3 className="text-2xl font-bold text-slate-900">Capitalism meets comedy</h3>
                   <p className="mt-2 text-slate-700">
-                    Every time it makes you laugh, a nickel leaves your wallet. Consent first, comedy second.
+                    We've monetized laughter. Your great-grandmother paid more for a gumball, but at least this won't rot your teeth.
                   </p>
                   <ul className="mt-4 space-y-2 text-slate-700 list-disc list-inside">
-                    <li>Choose a topic or go random</li>
-                    <li>Approve a tiny payment, then stream your joke</li>
-                    <li>Keep the laughs coming with a single click</li>
+                    <li>Pick a topic (or let chaos decide)</li>
+                    <li>Pay the comedy tax, receive premium nonsense</li>
+                    <li>Download your scratch card to flex on social media</li>
+                    <li>Repeat until broke or satisfied</li>
                   </ul>
                   <div className="mt-6">
                     <Button
@@ -646,14 +656,14 @@ export default function NickelJokePage() {
                     <Button
                       onClick={downloadScratchCard}
                       variant="outline"
-                      className="rounded-xl border-rose-500 text-rose-700 hover:bg-rose-50 hover:border-rose-600 transition-colors duration-200"
+                      className="rounded-xl border-slate-400 text-slate-600 hover:bg-slate-100 hover:border-slate-500 transition-colors duration-200"
                     >
                       <span className="mr-2">📥</span>
                       Download Card
                     </Button>
                     <Button
                       onClick={clearJoke}
-                      className="rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white font-bold hover:from-rose-400 hover:to-red-500 transition-all duration-200"
+                      className="rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold hover:from-slate-500 hover:to-slate-600 transition-all duration-200"
                     >
                       <span className="mr-2">🎭</span>
                       Another joke please

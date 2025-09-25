@@ -40,6 +40,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-syntax-highlighter": "^15.6.6",
+    "rough-notation": "^0.5.1",
     "roughjs": "^4.6.6",
     "shiki": "^3.12.2",
     "streamdown": "^1.1.4",
