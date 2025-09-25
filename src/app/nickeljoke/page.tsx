@@ -9,6 +9,11 @@ import { useAccount, useWalletClient, useSwitchChain } from "wagmi";
 import { wrapFetchWithPayment } from "x402-fetch";
 import { baseSepolia, base } from "wagmi/chains"; // Toggle TARGET_CHAIN to base for production
 import rough from "roughjs";
+import { ScratchToReveal } from "@/components/ui/scratch-to-reveal";
+import confetti from "canvas-confetti";
+import { Caveat } from "next/font/google";
+
+const caveat = Caveat({ subsets: ["latin"] });
 
 const randomTopics = [
   "programming",
@@ -293,6 +298,7 @@ export default function NickelJokePage() {
   const [error, setError] = useState("");
   const [showInfo, setShowInfo] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [confettiTriggered, setConfettiTriggered] = useState(false);
 
   const { address, isConnected, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -376,9 +382,21 @@ export default function NickelJokePage() {
     generateJoke(randomTopic);
   };
 
+  const triggerConfetti = () => {
+    if (!confettiTriggered) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      setConfettiTriggered(true);
+    }
+  };
+
   const clearJoke = () => {
     setJoke("");
     setTopic("");
+    setConfettiTriggered(false);
   };
 
   if (!mounted) return null;
@@ -541,28 +559,41 @@ export default function NickelJokePage() {
         {/* Joke display */}
         {(joke || isLoading) && (
           <section className="container mx-auto max-w-4xl px-6 pb-16">
-            <div className="mt-8 rounded-3xl border border-rose-200/70 bg-white p-6 md:p-8 shadow-2xl">
-              <div className="text-center mb-4">
+            <div className="mt-8 text-center">
+              <div className="mb-6">
                 <span className="text-4xl">🎪</span>
-                <h3 className="text-xl font-bold text-slate-900 mt-2">Your joke</h3>
+                <h3 className="text-xl font-bold text-slate-900 mt-2">Your joke - scratch to reveal!</h3>
               </div>
-              <div className="relative">
-                <Textarea
-                  value={isLoading ? "Generating your premium joke. Payment processing." : joke}
-                  readOnly
-                  className={`min-h-[160px] text-lg text-center rounded-2xl border ${
-                    joke
-                      ? "border-emerald-300 bg-emerald-50 text-emerald-900"
-                      : "border-amber-300 bg-amber-50 text-slate-700"
-                  }`}
-                  placeholder="Your hilarious joke will appear here"
-                />
-                {isLoading && (
-                  <div className="absolute top-4 right-4">
-                    <Loader className="h-6 w-6" />
-                  </div>
-                )}
-              </div>
+              
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center p-8 bg-white rounded-2xl border border-rose-200/70 shadow-2xl">
+                  <Loader className="h-8 w-8 mb-4" />
+                  <p className="text-lg text-slate-700">Generating your premium joke. Payment processing.</p>
+                </div>
+              ) : (
+                <div className="flex justify-center">
+                  <ScratchToReveal
+                    width={350}
+                    height={200}
+                    minScratchPercentage={60}
+                    className="flex items-center justify-center overflow-hidden rounded-2xl border-2 shadow-2xl"
+                    gradientColors={["#d1d5db", "#9ca3af", "#6b7280"]}
+                    onComplete={triggerConfetti}
+                  >
+                    <div 
+                      className="w-full h-full flex items-center justify-center p-6"
+                      style={{ backgroundColor: '#fff8dc' }}
+                    >
+                      <div className="text-center">
+                        <p className={`text-2xl font-medium text-slate-800 leading-tight ${caveat.className}`}>
+                          {joke}
+                        </p>
+                      </div>
+                    </div>
+                  </ScratchToReveal>
+                </div>
+              )}
+              
               {joke && (
                 <div className="text-center mt-6">
                   <Button
