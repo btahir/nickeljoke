@@ -310,6 +310,7 @@ export default function NickelJokePage() {
   const [confettiTriggered, setConfettiTriggered] = useState(false);
   
   const scratchCardRef = useRef<HTMLDivElement>(null);
+  const jokeCardRef = useRef<HTMLElement>(null);
 
   const { address, isConnected, chainId } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -347,6 +348,14 @@ export default function NickelJokePage() {
     setIsLoading(true);
     setError("");
     setJoke("");
+
+    // Auto scroll to joke card
+    setTimeout(() => {
+      jokeCardRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
 
     try {
       const x402fetch = wrapFetchWithPayment(fetch, walletClient as any);
@@ -757,7 +766,7 @@ export default function NickelJokePage() {
 
         {/* Joke display */}
         {(joke || isLoading) && (
-          <section className="container mx-auto max-w-4xl px-6 pb-16">
+          <section ref={jokeCardRef} className="container mx-auto max-w-4xl px-6 pb-16">
             <div className="mt-8 text-center">
               <div className="mb-6">
                 <span className="text-4xl">🎪</span>
