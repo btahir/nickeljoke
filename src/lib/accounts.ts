@@ -11,7 +11,7 @@ const chainMap = {
   base: base,
 } as const;
 
-export const chain = chainMap[env.NETWORK];
+export const chain = chainMap[env.NEXT_PUBLIC_NETWORK];
 
 const publicClient = createPublicClient({
   chain,
@@ -23,7 +23,7 @@ export async function getOrCreatePurchaserAccount(): Promise<Account> {
     name: "Purchaser",
   });
   const balances = await account.listTokenBalances({
-    network: env.NETWORK,
+    network: env.NEXT_PUBLIC_NETWORK,
   });
 
   const usdcBalance = balances.balances.find(
@@ -32,12 +32,12 @@ export async function getOrCreatePurchaserAccount(): Promise<Account> {
 
   // if under $0.50 while on testnet, request more
   if (
-    env.NETWORK === "base-sepolia" &&
+    env.NEXT_PUBLIC_NETWORK === "base-sepolia" &&
     (!usdcBalance || Number(usdcBalance.amount) < 500000)
   ) {
     const { transactionHash } = await cdp.evm.requestFaucet({
       address: account.address,
-      network: env.NETWORK,
+      network: env.NEXT_PUBLIC_NETWORK,
       token: "usdc",
     });
     const tx = await publicClient.waitForTransactionReceipt({

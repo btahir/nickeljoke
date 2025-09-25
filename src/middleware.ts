@@ -4,7 +4,7 @@ import { facilitator } from "@coinbase/x402";
 import { env } from "./lib/env";
 import { getOrCreateSellerAccount } from "./lib/accounts";
 
-const network = env.NETWORK;
+const network = env.NEXT_PUBLIC_NETWORK;
 const sellerAccount = await getOrCreateSellerAccount();
 
 export const x402Middleware = paymentMiddleware(
