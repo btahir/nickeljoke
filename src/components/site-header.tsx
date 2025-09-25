@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAccount, useConnect, useDisconnect, useSwitchChain, useWalletClient } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { metaMask, coinbaseWallet, injected } from "wagmi/connectors";
-import { baseSepolia, base } from "wagmi/chains";
+import { TARGET_CHAIN } from "@/lib/constants";
 
 export default function SiteHeader() {
   const { address, isConnected, chainId } = useAccount();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
-  const { data: walletClient } = useWalletClient();
   const [mounted, setMounted] = useState(false);
 
-  // Force a single chain. Use base for prod.
-  const TARGET_CHAIN = baseSepolia; // change to base for production
   const isOnTarget = chainId === TARGET_CHAIN.id;
 
   useEffect(() => setMounted(true), []);

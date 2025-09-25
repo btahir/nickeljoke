@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAccount, useWalletClient, useSwitchChain } from "wagmi";
 import { wrapFetchWithPayment } from "x402-fetch";
-import { baseSepolia } from "wagmi/chains"; // Toggle TARGET_CHAIN to base for production
+import { TARGET_CHAIN } from "@/lib/constants";
 import { JokeInputForm } from "@/components/joke-input-form";
 import { InfoCard } from "@/components/info-card";
 import { JokeDisplay } from "@/components/joke-display";
@@ -25,8 +25,6 @@ export default function NickelJokePage() {
   const { data: walletClient } = useWalletClient();
   const { switchChain } = useSwitchChain();
 
-  // Enforce a single target chain
-  const TARGET_CHAIN = baseSepolia; // set to base for production
   const isOnTarget = chainId === TARGET_CHAIN.id;
 
   useEffect(() => {
