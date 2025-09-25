@@ -14,6 +14,13 @@ import confetti from "canvas-confetti";
 import { Caveat } from "next/font/google";
 import { toPng } from "html-to-image";
 import { Highlighter } from "@/components/ui/highlighter";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const caveat = Caveat({ subsets: ["latin"] });
 
@@ -475,14 +482,16 @@ export default function NickelJokePage() {
 
       <div className="relative z-10">
         {/* Hero */}
-        <section className="container mx-auto max-w-6xl px-6 pt-12 pb-16 grid md:grid-cols-2 gap-8 items-start">
-          {/* Left: billboard card */}
-          <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden">
-            {/* Corner accents */}
-            <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
-            <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
+        <section className="container mx-auto max-w-6xl px-6 pt-12 pb-16">
+          {/* Desktop: Side by side */}
+          <div className="hidden md:grid md:grid-cols-2 gap-8 items-start">
+            {/* Left: billboard card */}
+            <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden">
+              {/* Corner accents */}
+              <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
+              <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
 
-            <div className="p-8 md:p-10">
+              <div className="p-8 md:p-10">
               <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
                 Premium AI comedy for a nickel
               </h2>
@@ -565,7 +574,6 @@ export default function NickelJokePage() {
                   </p>
                   <ul className="mt-4 space-y-2 text-slate-700 list-disc list-inside">
                     <li>Pick a topic (or let chaos decide)</li>
-                    <li>Pay the comedy tax, receive premium nonsense</li>
                     <li>Download your scratch card to flex on social media</li>
                     <li>Repeat until broke or satisfied</li>
                   </ul>
@@ -588,6 +596,143 @@ export default function NickelJokePage() {
                 <div className="h-2 w-16 rounded-md bg-red-300" />
               </div>
             </div>
+          </div>
+          </div>
+
+          {/* Mobile: Swipeable carousel */}
+          <div className="md:hidden">
+            <Carousel className="w-full">
+              <CarouselContent className="rounded-3xl">
+                <CarouselItem>
+                  <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden">
+                    {/* Corner accents */}
+                    <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
+                    <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
+
+                    <div className="p-8">
+                      <h2 className="text-4xl font-extrabold text-slate-900 leading-tight">
+                        Premium AI comedy for a nickel
+                      </h2>
+                      <p className="mt-4 text-lg text-slate-700">
+                        <Highlighter action="underline" color="#10b981">
+                          Pay once
+                        </Highlighter>
+                        , get a laugh. Each joke streams live to your screen.
+                      </p>
+
+                      {/* Price badge */}
+                      <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-rose-300 bg-rose-50 px-3 py-1">
+                        <span className="text-xl">💰</span>
+                        <span className="text-slate-800 font-semibold">
+                          <Highlighter action="highlight" color="#fbbf24">
+                            5¢
+                          </Highlighter>
+                          <span className="ml-4">per joke</span>
+                        </span>
+                      </div>
+
+                      {/* Topic input and actions */}
+                      <div className="mt-8 space-y-3">
+                        <Input
+                          type="text"
+                          placeholder="Enter a topic or leave blank for a surprise"
+                          value={topic}
+                          onChange={(e) => setTopic(e.target.value)}
+                          disabled={isLoading || !isConnected}
+                          className="h-12 rounded-xl border border-rose-200/70 bg-white text-center text-lg placeholder-slate-400"
+                        />
+
+                        <div className="flex flex-col gap-3">
+                          <Button
+                            onClick={() => generateJoke()}
+                            disabled={isLoading || !isConnected}
+                            className="h-12 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold hover:from-rose-400 hover:to-pink-400"
+                          >
+                            {isLoading ? (
+                              <>
+                                <Loader className="mr-2 h-5 w-5" />
+                                Crafting comedy
+                              </>
+                            ) : (
+                              <>
+                                <span className="mr-2">✨</span>
+                                {topic.trim() ? `Joke about "${topic}"` : "Custom joke"}
+                              </>
+                            )}
+                          </Button>
+
+                          <Button
+                            onClick={generateRandomJoke}
+                            disabled={isLoading || !isConnected}
+                            className="h-12 rounded-xl bg-gradient-to-r from-amber-400 to-rose-400 text-slate-900 font-bold hover:from-amber-300 hover:to-rose-300"
+                          >
+                            <span className="mr-2">🎲</span>
+                            Surprise me
+                          </Button>
+                        </div>
+
+                        {!isConnected ? (
+                          <p className="text-sm text-slate-600">
+                            Use the Connect button in the header to start
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+                
+                <CarouselItem>
+                  <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden h-full">
+                    {/* Corner accents */}
+                    <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
+                    <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
+
+                    <div className="p-6">
+                      <div className="flex items-start gap-4">
+                        <span className="text-5xl">📸</span>
+                        <div>
+                          <h3 className="text-2xl font-bold text-slate-900">Capitalism meets comedy</h3>
+                        <p className="mt-2 text-slate-700">
+                          We've monetized laughter. Your great-grandmother paid more for a gumball, but at least this won't rot your teeth.
+                        </p>
+                        <ul className="mt-4 space-y-2 text-slate-700 list-disc list-inside">
+                          <li>Pick a topic (or let chaos decide)</li>
+                          <li>Download your scratch card to flex on social media</li>
+                          <li>Repeat until broke or satisfied</li>
+                        </ul>
+                        <div className="mt-6">
+                          <Button
+                            onClick={() => setShowInfo(true)}
+                            variant="outline"
+                            className="rounded-xl border-rose-200/70 bg-white hover:bg-rose-50 text-slate-800"
+                          >
+                            How it works and help
+                          </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Hand-drawn color bars for personality */}
+                      <div className="mt-6 flex gap-2" aria-hidden>
+                        <div className="h-2 w-12 bg-rose-300 transform rotate-1" />
+                        <div className="h-2 w-8 bg-pink-300 transform -rotate-1" />
+                        <div className="h-2 w-16 bg-red-300 transform rotate-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              
+              {/* Custom navigation with text */}
+              <div className="flex justify-between items-center mt-4 px-4">
+                <CarouselPrevious className="static translate-y-0 h-10 w-auto px-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-3xl shadow-sm">
+                  <span className="text-sm font-medium text-gray-700">← Back to joke</span>
+                </CarouselPrevious>
+                <CarouselNext className="static translate-y-0 h-10 w-auto px-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-3xl shadow-sm">
+                  <span className="text-sm font-medium text-gray-700">Learn more →</span>
+                </CarouselNext>
+              </div>
+            </Carousel>
           </div>
         </section>
 
