@@ -1,9 +1,46 @@
 import { NextRequest } from 'next/server';
 import { ImageResponse } from 'next/og';
 import { getJoke } from '@/lib/redis';
+import fs from 'fs';
+import path from 'path';
+
+// Ensure Node.js runtime so local font loading via fs works
+export const runtime = 'nodejs';
+
+// Load font data globally - only read once at startup
+const fontPath = path.join(process.cwd(), 'public', 'Caveat-Regular.ttf');
+let caveatFontData: ArrayBuffer | undefined;
+try {
+  const fontBuffer = fs.readFileSync(fontPath);
+  caveatFontData = fontBuffer.buffer.slice(fontBuffer.byteOffset, fontBuffer.byteOffset + fontBuffer.byteLength);
+  console.log('Successfully loaded Caveat font, size:', caveatFontData.byteLength);
+} catch (error) {
+  console.error('Failed to load Caveat font:', error);
+  caveatFontData = undefined;
+}
+
+// Define fonts array globally for caching (reuse the same object each request)
+const fonts: any[] = caveatFontData
+  ? [
+      {
+        name: 'Caveat',
+        data: caveatFontData,
+        weight: 400,
+        style: 'normal',
+      },
+    ]
+  : [];
+
+// Define ImageResponse options globally for font caching
+const imageResponseOptions = {
+  width: 1200,
+  height: 630,
+  ...(fonts.length > 0 && { fonts }), // Add fonts only if available
+};
 
 export async function GET(request: NextRequest) {
   try {
+
     const { searchParams } = new URL(request.url);
     let joke: string | null = searchParams.get('joke');
     let topic: string | null = searchParams.get('topic');
@@ -33,79 +70,27 @@ export async function GET(request: NextRequest) {
             height: '100%',
             width: '100%',
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#fef7e7',
-            backgroundImage: 'linear-gradient(45deg, #fef7e7 0%, #fde68a 100%)',
-            padding: '40px',
+            backgroundColor: '#fff8dc',
+            padding: '60px',
           }}
         >
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'white',
-              borderRadius: '24px',
-              padding: '40px',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              maxWidth: '800px',
-              width: '100%',
+              fontSize: '32px',
+              lineHeight: '1.4',
+              color: '#1f2937',
+              textAlign: 'center',
+              fontFamily: caveatFontData ? 'Caveat' : 'system-ui',
+              maxWidth: '900px',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '30px',
-              }}
-            >
-              <div
-                style={{
-                  width: '60px',
-                  height: '60px',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  marginRight: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '30px',
-                }}
-              >
-                😄
-              </div>
-              <h1
-                style={{
-                  fontSize: '48px',
-                  fontWeight: 'bold',
-                  color: '#1f2937',
-                  margin: 0,
-                }}
-              >
-                NickelJoke
-              </h1>
-            </div>
-            <div
-              style={{
-                fontSize: '24px',
-                lineHeight: '1.5',
-                color: '#374151',
-                textAlign: 'center',
-                maxWidth: '700px',
-              }}
-            >
-              {joke}
-            </div>
+            {joke}
           </div>
         </div>
       ),
-      {
-        width: 1200,
-        height: 630,
-      }
+      imageResponseOptions
     );
   } catch (error) {
     console.error('Error generating OG image:', error);
