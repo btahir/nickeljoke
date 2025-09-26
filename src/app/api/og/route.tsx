@@ -49,10 +49,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (!joke) {
-      const errorText = 'Missing joke parameter or invalid share ID';
+      const fallbackJoke = 'Why did the joke fail to load? Because it had a 404 sense of humor!';
       let errorFontData: ArrayBuffer | undefined;
       try {
-        errorFontData = await loadGoogleFont('Caveat', errorText);
+        errorFontData = await loadGoogleFont('Caveat', fallbackJoke);
       } catch {}
 
       return new ImageResponse(
@@ -70,14 +70,19 @@ export async function GET(request: NextRequest) {
           >
             <div
               style={{
-                fontSize: '70px',
+                fontSize: '88px',
                 lineHeight: '1.4',
-                color: '#b91c1c',
+                color: '#1f2937',
                 textAlign: 'center',
                 fontFamily: errorFontData ? 'Caveat' : 'system-ui',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              {errorText}
+              {fallbackJoke}
             </div>
           </div>
         ),
