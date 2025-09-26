@@ -36,9 +36,9 @@ export default function SiteHeader() {
           <img 
             src="/logo.png" 
             alt="NickelJoke Logo" 
-            className="h-14 w-14 object-contain"
+            className="h-8 sm:h-10 w-8 sm:w-10 object-contain rounded-full"
           />
-          <span className="text-lg font-bold tracking-tight text-slate-800">NickelJoke</span>
+          <span className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800">NickelJoke</span>
         </div>
         <div className="flex items-center gap-2">
           {isConnected && (
