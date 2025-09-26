@@ -5,8 +5,8 @@ import { getJoke } from '@/lib/redis';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    let joke = searchParams.get('joke');
-    let topic = searchParams.get('topic');
+    let joke: string | null = searchParams.get('joke');
+    let topic: string | null = searchParams.get('topic');
     const shareId = searchParams.get('shareId');
 
     // If shareId is provided, fetch from Redis
@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
       const jokeData = await getJoke(shareId);
       if (jokeData) {
         joke = jokeData.joke;
-        topic = jokeData.topic;
+        topic = jokeData.topic || null;
+      } else {
+        // Fallback when Redis has expired or shareId is invalid
+        joke = "This joke has died or was never alive. lol.";
+        topic = "expired";
       }
     }
 
