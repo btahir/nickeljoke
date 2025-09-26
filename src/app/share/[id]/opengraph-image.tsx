@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { BASE_URL } from '@/lib/constants';
 
 export const runtime = 'edge';
 export const alt = 'NickelJoke - Shared Joke';
@@ -14,11 +15,8 @@ export default async function Image({
   params: { id: string };
 }) {
   try {
-    // Redirect to the OG API with the share ID
-    const ogUrl = new URL('/api/og', process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
-    ogUrl.searchParams.set('shareId', params.id);
-    
-    const response = await fetch(ogUrl.toString());
+    const ogUrl = `${BASE_URL}/api/og?shareId=${params.id}`;
+    const response = await fetch(ogUrl);
     
     if (response.ok) {
       return response;
