@@ -38,12 +38,12 @@ export async function GET(request: NextRequest) {
           topic = jokeData.topic || null;
         } else {
           // Fallback when Redis has expired or shareId is invalid
-          joke = "Looks like this joke died. lol.";
+          joke = "This used to be a joke. lol.";
           topic = "expired";
         }
       } catch (e) {
         console.error('Redis error when fetching shareId', e);
-        joke = "Looks like this joke died. lol.";
+        joke = "This used to be a joke. lol.";
         topic = "expired";
       }
     }
