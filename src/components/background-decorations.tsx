@@ -17,7 +17,7 @@ export function BackgroundDecorations() {
       />
       
       {/* Comedy and blockchain-themed decorative elements */}
-      <div className="pointer-events-none absolute top-8 left-6 opacity-65" aria-hidden>
+      <div className="pointer-events-none absolute top-8 left-6 opacity-65 hidden sm:block" aria-hidden>
         <RoughBlockchain width={140} height={100} className="text-blue-500" />
       </div>
       <div className="absolute top-12 right-6 opacity-75 z-20 hidden sm:block">
@@ -30,15 +30,12 @@ export function BackgroundDecorations() {
           <RoughCreator width={120} height={140} className="text-rose-400" />
         </a>
       </div>
-      <div className="pointer-events-none absolute bottom-12 left-6 opacity-70" aria-hidden>
+      <div className="pointer-events-none absolute bottom-12 left-6 opacity-70 hidden sm:block" aria-hidden>
         <RoughWallet width={160} height={120} className="text-purple-500" />
       </div>
-      <div className="absolute bottom-16 right-6 opacity-60 z-0">
-        <div className="hidden sm:block pointer-events-none" aria-hidden>
+      <div className="absolute bottom-16 right-6 opacity-60 z-0 hidden sm:block">
+        <div className="pointer-events-none" aria-hidden>
           <RoughNickelCoin width={120} height={120} className="text-gray-500" />
-        </div>
-        <div className="block sm:hidden pointer-events-none" aria-hidden>
-          <RoughNickelCoin width={100} height={100} className="text-gray-500" />
         </div>
       </div>
     </>
