@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#fff8dc',
-              padding: '60px',
+              padding: '20px',
             }}
           >
             <div
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#fff8dc',
-            padding: '60px',
+            padding: '20px',
           }}
         >
           <div
