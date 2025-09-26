@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { JokeInputForm } from "./joke-input-form";
-import { InfoCard } from "./info-card";
+import { RoughCreator } from "@/components/rough-components";
 
 interface MobileCarouselProps {
   topic: string;
@@ -80,6 +80,25 @@ export function MobileCarousel({
                   <div className="h-2 w-8 bg-pink-300 transform -rotate-1" />
                   <div className="h-2 w-16 bg-red-300 transform rotate-0.5" />
                 </div>
+              </div>
+            </div>
+          </CarouselItem>
+          
+          <CarouselItem>
+            <div className="relative rounded-3xl border border-rose-200/70 bg-white shadow-2xl overflow-hidden h-full">
+              {/* Corner accents */}
+              <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-rose-400/90" aria-hidden />
+              <div className="absolute -bottom-3 -right-3 h-8 w-8 rounded-full bg-pink-400/90" aria-hidden />
+
+              <div className="p-6 flex items-center justify-center">
+                <a 
+                  href="https://x.com/deepwhitman" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
+                >
+                  <RoughCreator width={300} height={400} className="text-rose-400" />
+                </a>
               </div>
             </div>
           </CarouselItem>

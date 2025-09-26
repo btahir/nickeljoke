@@ -33,19 +33,12 @@ export function BackgroundDecorations() {
       <div className="pointer-events-none absolute bottom-12 left-6 opacity-70" aria-hidden>
         <RoughWallet width={160} height={120} className="text-purple-500" />
       </div>
-      <div className="absolute bottom-16 right-6 opacity-60 z-20">
+      <div className="absolute bottom-16 right-6 opacity-60 z-0">
         <div className="hidden sm:block pointer-events-none" aria-hidden>
           <RoughNickelCoin width={120} height={120} className="text-gray-500" />
         </div>
-        <div className="block sm:hidden">
-          <a 
-            href="https://x.com/deepwhitman" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
-          >
-            <RoughCreator width={100} height={120} className="text-rose-400" />
-          </a>
+        <div className="block sm:hidden pointer-events-none" aria-hidden>
+          <RoughNickelCoin width={100} height={100} className="text-gray-500" />
         </div>
       </div>
     </>

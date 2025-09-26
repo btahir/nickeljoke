@@ -23,11 +23,11 @@ export function RoughCreator({ width = 120, height = 140, className = "" }: Roug
     ctx.clearRect(0, 0, width, height);
     
     // Add hand-drawn "Meet the Creator" text at top
-    ctx.font = '12px serif';
+    ctx.font = '20px serif';
     ctx.fillStyle = '#374151';
     ctx.textAlign = 'center';
     ctx.save();
-    ctx.translate(width * 0.5, height * 0.12);
+    ctx.translate(width * 0.5, height * 0.1);
     ctx.rotate(-0.05); // Slight rotation for hand-drawn feel
     ctx.fillText('Meet the', 0, 0);
     ctx.restore();

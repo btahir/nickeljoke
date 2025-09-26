@@ -94,9 +94,18 @@ export default function NickelJokePage() {
       }
     } catch (err) {
       console.error("Joke generation error:", err);
-      setError(
-        err instanceof Error ? err.message : "Failed to generate joke. Please try again"
-      );
+      
+      if (err instanceof Error) {
+        if (err.message.includes("User rejected the request") || err.message.includes("User denied message signature")) {
+          setError("Transaction cancelled");
+        } else {
+          // Strip out viem version info from error messages
+          const cleanMessage = err.message.replace(/\s*Details:.*?Version:.*$/i, '');
+          setError(cleanMessage);
+        }
+      } else {
+        setError("Failed to generate joke. Please try again");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -156,7 +165,12 @@ export default function NickelJokePage() {
         {error && (
           <div className="container mx-auto max-w-3xl px-6">
             <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-50 p-5 text-rose-700">
-              <p className="font-semibold">{error}</p>
+              <p className="font-semibold">
+                {error.includes("User rejected the request") || error.includes("User denied message signature") 
+                  ? "Transaction cancelled" 
+                  : error.replace(/\s*Details:.*?Version:.*$/i, '')
+                }
+              </p>
               <div className="mt-2 text-sm space-y-1">
                 {error.includes("Payment required") && <p>Tip: check your USDC balance and try again.</p>}
                 {error.toLowerCase().includes("switch") && <p>Tip: use the header to pick a supported network.</p>}

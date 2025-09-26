@@ -98,7 +98,7 @@ export const JokeDisplay = forwardRef<HTMLElement, JokeDisplayProps>(
           {isLoading ? (
             <div className="flex flex-col items-center justify-center p-8 bg-white rounded-2xl border border-rose-200/70 shadow-2xl">
               <Loader className="h-8 w-8 mb-4" />
-              <p className="text-lg text-slate-700">Generating your premium joke. Payment processing.</p>
+              <p className="text-lg text-slate-700">Generating your premium joke. Please confirm the transaction in your wallet.</p>
             </div>
           ) : (
             <div className="flex justify-center">
