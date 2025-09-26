@@ -119,25 +119,15 @@ export async function GET(request: NextRequest) {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#fff8dc',
-            padding: '20px',
+            fontSize: '88px',
+            lineHeight: '1.4',
+            color: '#1f2937',
+            textAlign: 'center',
+            fontFamily: fontData ? 'Caveat' : 'system-ui',
+            padding: '40px',
           }}
         >
-          <div
-            style={{
-              fontSize: '88px',
-              lineHeight: '1.4',
-              color: '#1f2937',
-              textAlign: 'center',
-              fontFamily: fontData ? 'Caveat' : 'system-ui',
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {joke}
-          </div>
+          {joke}
         </div>
       ),
       {
