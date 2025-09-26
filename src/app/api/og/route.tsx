@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         topic = jokeData.topic || null;
       } else {
         // Fallback when Redis has expired or shareId is invalid
-        joke = "This joke has died or was never alive. lol.";
+        joke = "Looks like this joke died. lol.";
         topic = "expired";
       }
     }
