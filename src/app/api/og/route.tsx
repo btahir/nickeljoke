@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
           >
             <div
               style={{
-                fontSize: '80px',
+                fontSize: '70px',
                 lineHeight: '1.4',
                 color: '#b91c1c',
                 textAlign: 'center',
