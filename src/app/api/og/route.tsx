@@ -75,7 +75,6 @@ export async function GET(request: NextRequest) {
                 color: '#b91c1c',
                 textAlign: 'center',
                 fontFamily: errorFontData ? 'Caveat' : 'system-ui',
-                maxWidth: '900px',
               }}
             >
               {errorText}
@@ -125,7 +124,6 @@ export async function GET(request: NextRequest) {
               color: '#1f2937',
               textAlign: 'center',
               fontFamily: fontData ? 'Caveat' : 'system-ui',
-              maxWidth: '900px',
             }}
           >
             {joke}
