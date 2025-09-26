@@ -9,10 +9,10 @@ export const runtime = 'nodejs';
 
 // Load font data globally - only read once at startup
 const fontPath = path.join(process.cwd(), 'public', 'Caveat-Regular.ttf');
-let caveatFontData: ArrayBuffer | undefined;
+let caveatFontData: Buffer | undefined;
 try {
   const fontBuffer = fs.readFileSync(fontPath);
-  caveatFontData = fontBuffer.buffer.slice(fontBuffer.byteOffset, fontBuffer.byteOffset + fontBuffer.byteLength);
+  caveatFontData = fontBuffer;
   console.log('Successfully loaded Caveat font, size:', caveatFontData.byteLength);
 } catch (error) {
   console.error('Failed to load Caveat font:', error);
@@ -46,14 +46,20 @@ export async function GET(request: NextRequest) {
     let topic: string | null = searchParams.get('topic');
     const shareId = searchParams.get('shareId');
 
-    // If shareId is provided, fetch from Redis
+    // If shareId is provided, fetch from Redis (but never fail the image)
     if (shareId) {
-      const jokeData = await getJoke(shareId);
-      if (jokeData) {
-        joke = jokeData.joke;
-        topic = jokeData.topic || null;
-      } else {
-        // Fallback when Redis has expired or shareId is invalid
+      try {
+        const jokeData = await getJoke(shareId);
+        if (jokeData) {
+          joke = jokeData.joke;
+          topic = jokeData.topic || null;
+        } else {
+          // Fallback when Redis has expired or shareId is invalid
+          joke = "Looks like this joke died. lol.";
+          topic = "expired";
+        }
+      } catch (e) {
+        console.error('Redis error when fetching shareId', e);
         joke = "Looks like this joke died. lol.";
         topic = "expired";
       }
