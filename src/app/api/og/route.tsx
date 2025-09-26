@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
           >
             <div
               style={{
-                fontSize: '28px',
+                fontSize: '48px',
                 lineHeight: '1.4',
                 color: '#b91c1c',
                 textAlign: 'center',
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
         >
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '52px',
               lineHeight: '1.4',
               color: '#1f2937',
               textAlign: 'center',
