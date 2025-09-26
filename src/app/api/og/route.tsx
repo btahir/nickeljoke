@@ -124,6 +124,11 @@ export async function GET(request: NextRequest) {
               color: '#1f2937',
               textAlign: 'center',
               fontFamily: fontData ? 'Caveat' : 'system-ui',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             {joke}
