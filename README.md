@@ -1,84 +1,116 @@
-# x402 Next.js + AI Starter Kit
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fx402-ai-starter&env=CDP_API_KEY_ID,CDP_API_KEY_SECRET,CDP_WALLET_SECRET&envDescription=Coinbase%20Developer%20Platform%20credentials%20are%20needed%20to%20create%20and%20fund%20server%20wallets&envLink=https%3A%2F%2Fdocs.cdp.coinbase.com%2Fapi-reference%2Fv2%2Fauthentication&project-name=x402-ai-starter&repository-name=x402-ai-starter&demo-title=x402%20AI%20Starter&demo-description=A%20fullstack%20template%20for%20using%20x402%20with%20MCP%20and%20AI%20SDK&demo-url=https%3A%2F%2Fx402-ai-starter.labs.vercel.dev%2F&demo-image=https%3A%2F%2Fx402-ai-starter.labs.vercel.dev%2Fscreenshot.png)
+# NickelJoke - x402 Powered Joke Generator
 
 ![Screenshot of the app](./public/screenshot-small.png)
 
-[x402](https://x402.org) is a new protocol built on top of HTTP for doing fully accountless payments easily, quickly, cheaply and securely.
+NickelJoke is a fun web application that generates custom jokes on any topic using the [x402](https://x402.org) payment protocol. Users can pay small amounts of USDC to generate personalized jokes, demonstrating micropayments for AI services.
 
-This template built with [Next.js](https://nextjs.org), [AI SDK](https://ai-sdk.dev), [AI Elements](https://ai-elements.dev), and [AI Gateway](https://vercel.com/ai-gateway) and the [Coinbase CDP](https://docs.cdp.coinbase.com/) shows off using x402 with a modern AI stack.
-
-**Demo: [https://x402-ai-starter.vercel.app/](https://x402-ai-starter.vercel.app/)**
+Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments.
 
 ## Features
 
-- AI Chat + API playground to see x402 in action
-- AI agent that can pay for tools
-- Remote MCP server with "paid" tools
-- Paywalled APIs
-- Paywalled pages (for bots)
-- Secure server managed wallets
+- 🎭 Custom joke generation on any topic
+- 💰 Micropayments using x402 protocol and USDC
+- 🎲 Random topic suggestions for quick laughs
+- 📱 Mobile-responsive design with smooth animations
+- 🎨 Interactive scratch-to-reveal joke cards
+- 📤 Share jokes with friends via unique links
+- 🎉 Confetti animations and visual feedback
+- 🔗 Built-in wallet connection with Base network support
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/)
-- [AI SDK](https://ai-sdk.dev)
-- [AI Elements](https://ai-elements.dev)
-- [AI Gateway](https://vercel.com/ai-gateway)
-- [Coinbase CDP](https://docs.cdp.coinbase.com/)
-- [x402](https://x402.org)
+- [Next.js 15](https://nextjs.org/) - React framework with App Router
+- [x402](https://x402.org) - Payment protocol for HTTP
+- [Coinbase CDP](https://docs.cdp.coinbase.com/) - Wallet and payment infrastructure
+- [Wagmi](https://wagmi.sh/) - React hooks for Ethereum
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Framer Motion](https://motion.dev/) - Animation library
+- [Radix UI](https://radix-ui.com/) - Accessible component primitives
+- [TypeScript](https://typescriptlang.org/) - Type safety
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/vercel-labs/x402-ai-starter
-cd x402-ai-starter
+git clone https://github.com/yourusername/nickeljoke
+cd nickeljoke
 pnpm install
 ```
 
 ## Running Locally
 
-1. Sign into the [Coinbase CDP portal](https://portal.cdp.coinbase.com)
+1. **Set up Coinbase CDP credentials**
+   
+   Sign into the [Coinbase CDP portal](https://portal.cdp.coinbase.com) and create API keys.
 
-2. Following `.env.example`, set the following environment variables in `.env.local`:
+2. **Configure environment variables**
+   
+   Copy `.env.example` to `.env.local` and set:
+   - `CDP_API_KEY_ID` - Your CDP API key ID
+   - `CDP_API_KEY_SECRET` - Your CDP API secret
+   - `CDP_WALLET_SECRET` - Your wallet secret phrase
 
-- `CDP_API_KEY_ID`
-- `CDP_API_KEY_SECRET`
-- `CDP_WALLET_SECRET`
+3. **Start the development server**
+   ```bash
+   pnpm dev
+   ```
 
-Using AI Gateway requires either a Vercel OIDC token, or an API Key.
-To get an OIDC token, simply run `vc link` then `vc env pull`. An API can be obtained from the [AI Gateway dashboard](https://vercel.com/ai-gateway).
+4. **Open the app**
+   
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-Using AI Gateway isn't required, you can use any AI SDK model provider and its associated credentials.
+## How to Use
 
-3. Run `pnpm dev`
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+1. **Connect your wallet** using the header button
+2. **Switch to Base Sepolia** (testnet) if prompted
+3. **Enter a joke topic** or click "Random Topic" for suggestions
+4. **Generate a joke** - this will cost a small amount of USDC
+5. **Scratch to reveal** your personalized joke
+6. **Share your joke** with the share button
 
 ## Testing Payments
 
-By default, the app uses the `base-sepolia` network, or "testnet". This is a testing network with fake money. The app is configured to automically request more funds from a faucet (source of testnet money) when your account is running low. You can also do this yourself in the [Coinbase CDP dashboard](https://portal.cdp.coinbase.com/products/faucet?token=USDC&network=base-sepolia).
+The app uses **Base Sepolia** (testnet) by default, so you can test with fake money. Get free testnet USDC from the [Coinbase CDP faucet](https://portal.cdp.coinbase.com/products/faucet?token=USDC&network=base-sepolia).
 
-## Going to Production
-
-When you're ready to deploy your SaaS application to production, follow these steps:
+## Deployment
 
 ### Deploy to Vercel
 
-1. Push your code to a GitHub repository.
-2. Connect your repository to [Vercel](https://vercel.com/) and deploy it.
-3. Follow the Vercel deployment process, which will guide you through setting up your project.
+1. Push your code to GitHub
+2. Connect to [Vercel](https://vercel.com/) and deploy
+3. Add environment variables in your Vercel project settings:
+   - `CDP_API_KEY_ID`
+   - `CDP_API_KEY_SECRET` 
+   - `CDP_WALLET_SECRET`
 
-### Add environment variables
+### Production Setup
 
-In your Vercel project settings (or during deployment), add all the necessary environment variables. Make sure to update the values for the production environment, including:
+To use mainnet (real money):
+1. Set `NETWORK=base` in your environment variables
+2. Ensure your CDP wallet has sufficient USDC for joke generation costs
+3. Monitor usage through the [Coinbase CDP dashboard](https://portal.cdp.coinbase.com/)
 
-- `CDP_API_KEY_ID`
-- `CDP_API_KEY_SECRET`
-- `CDP_WALLET_SECRET`
+## Project Structure
 
-## Moving to mainnet
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── api/joke/          # Joke generation API endpoint
+│   └── share/[id]/        # Shared joke pages
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── rough-components/ # Hand-drawn style components
+│   └── joke-*.tsx        # Joke-specific components
+└── lib/                  # Utilities and configuration
+```
 
-To move to mainnet, set the `NETWORK` environment variable to `base`.
+## Contributing
 
-Make sure that the `Purchaser` account has enough funds to pay for the tools you're using. To fund the account, you can send USDC to the account's address in the [Coinbase CDP dashboard](https://portal.cdp.coinbase.com/products/server-wallet?accountType=evm-eoa).
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
