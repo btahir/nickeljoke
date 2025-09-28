@@ -3,6 +3,7 @@ import { Fredoka, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import SiteHeader from "@/components/site-header";
+import { Analytics } from '@/components/analytics'
 
 const fredoka = Fredoka({ variable: "--font-fredoka", subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <p>© NickelJoke. Pay a nickel, get a giggle.</p>
             </footer>
           </div>
+          <Analytics />
         </Providers>
       </body>
     </html>
