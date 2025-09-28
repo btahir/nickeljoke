@@ -10,6 +10,7 @@ import { JokeDisplay } from "@/components/joke-display";
 import { InfoModal } from "@/components/info-modal";
 import { BackgroundDecorations } from "@/components/background-decorations";
 import { MobileCarousel } from "@/components/mobile-carousel";
+import { trackJokeGeneration, trackJokeSuccess, trackJokeError, trackRandomTopicClick, trackInfoModalOpen } from "@/lib/analytics";
 
 export default function NickelJokePage() {
   const [topic, setTopic] = useState("");
@@ -52,6 +53,11 @@ export default function NickelJokePage() {
     }
 
     const jokeTopicToUse = customTopic || topic || "random";
+    const isRandom = !customTopic && !topic;
+    
+    // Track joke generation attempt
+    trackJokeGeneration(jokeTopicToUse, isRandom);
+    
     setIsLoading(true);
     setError("");
     setJoke("");
@@ -92,26 +98,39 @@ export default function NickelJokePage() {
         jokeText += new TextDecoder().decode(value);
         setJoke(jokeText);
       }
+      
+      // Track successful joke generation
+      trackJokeSuccess(jokeTopicToUse, isRandom);
     } catch (err) {
       console.error("Joke generation error:", err);
       
+      let errorMessage = "Unknown error";
       if (err instanceof Error) {
         if (err.message.includes("User rejected the request") || err.message.includes("User denied message signature")) {
+          errorMessage = "Transaction cancelled";
           setError("Transaction cancelled");
         } else {
           // Strip out viem version info from error messages
           const cleanMessage = err.message.replace(/\s*Details:.*?Version:.*$/i, '');
+          errorMessage = cleanMessage;
           setError(cleanMessage);
         }
       } else {
+        errorMessage = "Failed to generate joke. Please try again";
         setError("Failed to generate joke. Please try again");
       }
+      
+      // Track joke generation error
+      trackJokeError(errorMessage, jokeTopicToUse);
     } finally {
       setIsLoading(false);
     }
   };
 
   const generateRandomJoke = () => {
+    // Track random topic click
+    trackRandomTopicClick();
+    
     const randomTopics = [
       "programming", "cats", "coffee", "artificial intelligence", "pizza", "meetings",
       "smartphones", "weather", "exercise", "social media", "cooking", "travel",
@@ -147,7 +166,10 @@ export default function NickelJokePage() {
               onGenerateJoke={() => generateJoke()}
               onGenerateRandomJoke={generateRandomJoke}
             />
-            <InfoCard onShowInfo={() => setShowInfo(true)} />
+            <InfoCard onShowInfo={() => {
+              trackInfoModalOpen();
+              setShowInfo(true);
+            }} />
           </div>
 
           <MobileCarousel
@@ -157,7 +179,10 @@ export default function NickelJokePage() {
             isConnected={isConnected}
             onGenerateJoke={() => generateJoke()}
             onGenerateRandomJoke={generateRandomJoke}
-            onShowInfo={() => setShowInfo(true)}
+            onShowInfo={() => {
+              trackInfoModalOpen();
+              setShowInfo(true);
+            }}
           />
         </section>
 
