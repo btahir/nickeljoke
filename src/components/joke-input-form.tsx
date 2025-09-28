@@ -60,7 +60,7 @@ export function JokeInputForm({
 
       <div className="p-8 md:p-10">
         <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-          Premium AI comedy for a nickel
+          Premium comedy for a nickel
         </h2>
         <p className="mt-4 text-lg text-slate-700">
           <Highlighter action="underline" color="#10b981">
