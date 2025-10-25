@@ -1,42 +1,42 @@
-# NickelJoke - x402 Powered Joke Generator
+# NickelJoke - AI-Powered Joke Generator with Micropayments
 
-![Screenshot of the app](./public/screenshot-small.png)
+![Screenshot of the app](./src/app/opengraph-image.png)
 
-NickelJoke is a fun web application that generates custom jokes on any topic using the [x402](https://x402.org) payment protocol. Users can pay small amounts of USDC to generate personalized jokes, demonstrating micropayments for AI services.
+**NickelJoke** is a revolutionary web application that generates personalized jokes on any topic using AI, powered by the [x402](https://x402.org) payment protocol. Pay small amounts of USDC to get custom jokes, demonstrating the future of micropayments for AI services.
 
-Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments.
+Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments in a fun, engaging way.
 
-## Features
+## ✨ Features
 
-- 🎭 Custom joke generation on any topic
-- 💰 Micropayments using x402 protocol and USDC
-- 🎲 Random topic suggestions for quick laughs
-- 📱 Mobile-responsive design with smooth animations
-- 🎨 Interactive scratch-to-reveal joke cards
-- 📤 Share jokes with friends via unique links
-- 🎉 Confetti animations and visual feedback
-- 🔗 Built-in wallet connection with Base network support
+- 🎭 **AI-Powered Jokes** - Generate custom jokes on any topic using advanced AI
+- 💰 **Micropayments** - Pay small amounts of USDC using the x402 protocol
+- 🎲 **Smart Suggestions** - Get random topic ideas for instant inspiration
+- 📱 **Mobile-First** - Beautiful, responsive design with smooth animations
+- 🎨 **Interactive Experience** - Scratch-to-reveal joke cards with satisfying animations
+- 📤 **Social Sharing** - Share your favorite jokes with unique, shareable links
+- 🎉 **Delightful UX** - Confetti animations and engaging visual feedback
+- 🔗 **Easy Wallet Connection** - Seamless Base network integration
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- [Next.js 15](https://nextjs.org/) - React framework with App Router
-- [x402](https://x402.org) - Payment protocol for HTTP
-- [Coinbase CDP](https://docs.cdp.coinbase.com/) - Wallet and payment infrastructure
-- [Wagmi](https://wagmi.sh/) - React hooks for Ethereum
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [Framer Motion](https://motion.dev/) - Animation library
-- [Radix UI](https://radix-ui.com/) - Accessible component primitives
-- [TypeScript](https://typescriptlang.org/) - Type safety
+- **[Next.js 15](https://nextjs.org/)** - React framework with App Router
+- **[x402](https://x402.org)** - Payment protocol for HTTP
+- **[Coinbase CDP](https://docs.cdp.coinbase.com/)** - Wallet and payment infrastructure
+- **[Wagmi](https://wagmi.sh/)** - React hooks for Ethereum
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Framer Motion](https://motion.dev/)** - Animation library
+- **[Radix UI](https://radix-ui.com/)** - Accessible component primitives
+- **[TypeScript](https://typescriptlang.org/)** - Type safety
 
-## Getting Started
+## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/yourusername/nickeljoke
+git clone https://github.com/btahir/nickeljoke
 cd nickeljoke
 pnpm install
 ```
 
-## Running Locally
+## 🏃‍♂️ Running Locally
 
 1. **Set up Coinbase CDP credentials**
    
@@ -58,7 +58,7 @@ pnpm install
    
    Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-## How to Use
+## 🎯 How to Use
 
 1. **Connect your wallet** using the header button
 2. **Switch to Base Sepolia** (testnet) if prompted
@@ -67,11 +67,11 @@ pnpm install
 5. **Scratch to reveal** your personalized joke
 6. **Share your joke** with the share button
 
-## Testing Payments
+## 🧪 Testing Payments
 
 The app uses **Base Sepolia** (testnet) by default, so you can test with fake money. Get free testnet USDC from the [Coinbase CDP faucet](https://portal.cdp.coinbase.com/products/faucet?token=USDC&network=base-sepolia).
 
-## Deployment
+## 🚀 Deployment
 
 ### Deploy to Vercel
 
@@ -89,7 +89,7 @@ To use mainnet (real money):
 2. Ensure your CDP wallet has sufficient USDC for joke generation costs
 3. Monitor usage through the [Coinbase CDP dashboard](https://portal.cdp.coinbase.com/)
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
@@ -103,7 +103,7 @@ src/
 └── lib/                  # Utilities and configuration
 ```
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -111,6 +111,6 @@ src/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
