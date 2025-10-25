@@ -1,8 +1,8 @@
-# NickelJoke - AI-Powered Joke Generator with Micropayments
+# NickelJoke - Pay a Nickel to Get a Joke Using x402 Micropayments
 
 ![Screenshot of the app](./src/app/opengraph-image.png)
 
-**NickelJoke** is a revolutionary web application that generates personalized jokes on any topic using AI, powered by the [x402](https://x402.org) payment protocol. Pay small amounts of USDC to get custom jokes, demonstrating the future of micropayments for AI services.
+**NickelJoke** is a web application that generates personalized jokes on any topic using AI, powered by the [x402](https://x402.org) payment protocol. Pay small amounts of USDC to get custom jokes, demonstrating the future of micropayments for AI services.
 
 Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments in a fun, engaging way. 
 
