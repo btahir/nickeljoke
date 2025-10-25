@@ -4,7 +4,9 @@
 
 **NickelJoke** is a revolutionary web application that generates personalized jokes on any topic using AI, powered by the [x402](https://x402.org) payment protocol. Pay small amounts of USDC to get custom jokes, demonstrating the future of micropayments for AI services.
 
-Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments in a fun, engaging way.
+Built with [Next.js](https://nextjs.org), [x402](https://x402.org), and [Coinbase CDP](https://docs.cdp.coinbase.com/), this app showcases how easy it is to monetize AI services with cryptocurrency payments in a fun, engaging way. 
+
+This project was built using the [x402 AI Starter Kit](https://github.com/vercel-labs/x402-ai-starter) - a Next.js template that demonstrates how to integrate x402 payments with AI services.
 
 ## ✨ Features
 
